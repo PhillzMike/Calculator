@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <h1>Calculator</h1>
+        <link rel="stylesheet" href="index.css">
+        <script src = "index.js"></script>
+    </head>
+    <body>
+        <div id = "calculator">
+            <div id="textArea" class = "regions">
+                <textarea id = "text">
+                </textarea>
+            </div>
+            <div id = "buttons">
+                <div id="functions" class = "regions">
+                    <div id="fractions">
+                        <button id = "shift" class = "oButtons">Shift</button>
+                        <button id = "fraction" class = "oButtons">frac</button>
+                        <button id="squareRoot" class="oButtons">^(1/2)</button>
+                        <button id="root" class="oButtons">root</button>
+                        <button id="power" class="oButtons">^</button>
+                        <button class="oButtons" id="power2">^2</button>
+                        <button class="oButtons" id = "powerMinus1">^(-1)</button>
+                        <button class="oButtons"id = "factorial">!</button>
+                    </div>
+                    <div id="directions">   
+                        <div class = "direction">
+                            <button class="dButtons">Up</button>
+                        </div>
+                        <div class = "direction">
+                            <button class="dButtons">Left</button>
+                            <button class="dButtons">Right</button>
+                        </div>
+                        <div class = "direction">
+                            <button class="dButtons">Down</button>
+                        </div>
+                    </div>
+                    <div id="trig">
+                        <button class="oButtons trig" id = "log">log(</button>
+                        <button class="oButtons trig" id = "ln">ln(</button>
+                        <button class="oButtons trig" id = "sin">sin(</button>
+                        <button class="oButtons trig" id = "cos">cos(</button>
+                        <button class="oButtons trig" id = "tan">tan(</button>
+                        <button class="oButtons" id = "leftParanthesis">(</button>
+                        <button class="oButtons" id = "right Paranthesis">)</button>
+                        <button class="oButtons"></button>
+                    </div>
+                </div>
+                <div id="arithmetic" class = "regions">
+                    <div id="numbers">
+                        <button class="number" id="num7">7</button>
+                        <button class="number" id="num8">8</button>
+                        <button class="number" id="num9">9</button>
+                        <button class="number" id="num4">4</button>
+                        <button class="number" id="num5">5</button>
+                        <button class="number" id="num6">6</button>
+                        <button class="number" id="num1">1</button>
+                        <button class="number" id="num2">2</button>
+                        <button class="number" id="num3">3</button>
+                        <button class="number" id="num0">0</button>
+                        <button class="number" id="decimalPoint">.</button>
+                        <button class="number" id="toPower10">*10</button>
+                    </div>
+                    <div id="operators">
+                        <button class="oButtons" id="delete">Del</button>
+                        <button class="oButtons" id="erase">AC</button>
+                        <button class="oButtons" id="multiply">*</button>
+                        <button class="oButtons" id="divide">/</button>
+                        <button class="oButtons" id="add">+</button>
+                        <button class="oButtons" id="subtract">-</button>
+                        <button class="number","oButtons" id="ans">Ans</button>
+                        <button class="oButtons" id="equalTo">=</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </body>
+</html>

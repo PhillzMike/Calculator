@@ -1,0 +1,137 @@
+html{
+    background-color: rgb(191, 206, 206);
+}
+body{
+    height: 100%;
+}
+#calculator{
+    background-color: white;
+    width: 30%;
+    height: 550px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    margin-left: 35%;
+    margin-right: 35%;
+    justify-content: space-around;
+    min-width: 200px;
+}
+#buttons{
+    height: 66%;
+}
+.oButtons{
+    text-align: center;
+    height: 25%;
+    width: 50%;
+    border:  none;
+}
+#operators{
+    background-color: rgb(110, 86, 86);
+}
+.oButtons img{
+    width: 70%;
+    height: 70%;
+}
+.number{
+    background-color: rgb(36, 27, 27);
+    color: white;
+}
+#text, #answer{
+    width: 100%;
+    border:none;
+    font-size: 150%;
+}
+#delete, #erase{
+    background-color: rgb(219, 69, 69);
+    color: rgb(255, 255, 255)
+}
+#text{
+    height: 60%;
+    text-align: right;
+}
+#answer{
+    text-align: end;
+    height: 35%;
+    font-size: 120%;
+}
+.regions{
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#fractions{
+    display: flex;
+    width: 30%;
+    flex-wrap: wrap;
+}
+#directions{
+    padding-top: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    border: 1px solid black;
+}
+.dButtons{
+    width: 50%;
+}
+.direction{
+    
+    display: flex;
+    justify-content: center;
+    height: 30%;
+}
+#trig{
+    display: flex;
+    flex-wrap: wrap;
+    width: 29%;
+}
+#numbers{
+    width: 52%;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%
+}
+button{
+    transition-duration: 1s;
+    font-family: cursive;
+    cursor: pointer;
+}
+button:active{
+    background-color: red;
+    color: rgba(57, 68, 62, 0.315);
+}
+button:active:after{
+    
+    background-color: red;
+    color: rgba(57, 68, 62, 0.315);
+}
+button:hover{
+    background-color:rgb(105, 97, 97) ;
+    color: rgb(228, 213, 213);
+}
+.number{
+    width: 33%;
+    margin: 0%;
+    padding: 0%;
+    height: 25%;
+    border: none;
+    text-align:center;
+    font-size: 14px;
+    font-weight: bold;
+}
+#arithmetic{
+    height: 60%
+}
+#functions{
+    height: 40%;
+}
+#ans{
+    width: 50%;
+}
+#operators{
+    width: 47%;
+    border-left: 2px solid black;
+    display: flex;
+    flex-wrap: wrap;
+}
