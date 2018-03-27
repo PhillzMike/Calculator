@@ -1,40 +1,86 @@
 var number = "";
 var binary = ["+","-","*","/","^"];
 var noOfParenthesis = 0;
+var shiftPressed = false;
 window.onload = function(){
     let s = document.getElementsByClassName('number');
+    let radians = document.getElementById("radian");
     for(let i = 0;i<s.length;i++){
         s[i].addEventListener("click",getNumber);
     }
     s = document.getElementsByClassName('oButtons');
     for(let i = 0;i<s.length;i++){
-        if(s[i].id == "delete"){
-            s[i].addEventListener("click",function(){
-                deleteString(CountLetter(number));
-            })
+        switch(s[i].id){
+            case "delete" :
+                s[i].addEventListener("click",function(){
+                    deleteString(CountLetter(number));
+                })
+                break;
+            case "erase" :
+                s[i].addEventListener("click",function(){
+                    deleteString(number.length);
+                })
+                break;
+            case "shift" :
+                s[i].addEventListener("click",function(){
+                    changeTrig();
+                })
+                break;
+            case "rad" :
+
+                break;
+            case "equalTo" :
+                s[i].addEventListener("click", function(){
+                    if(number== ""){
+                        alert("Nothing to Compute");
+                    }else{
+                        for(let i =0;i<noOfParenthesis;i++){
+                            number += ")";
+                        }
+                        let calc = new Calculator(number,radians.checked);
+                        calc.resolve();
+                        number = calc.evaluatePostfix(calc.convertToPostfix(calc.split()));
+                        if(isNaN(number)){
+                            alert("Math Error");
+                            number = "";
+                        }
+                        document.getElementById("text").innerHTML = number;
+                        number += "";
+                        noOfParenthesis = 0;
+                    }
+                    
+                })
+                break;
+            default:
+                s[i].addEventListener("click",getNumber);
+                break;
+
         }
-        else if(s[i].id == "erase"){
-            s[i].addEventListener("click",function(){
-                deleteString(number.length);
-            })
+    }
+    function changeTrig() {
+        let shift = document.getElementById("shift");
+        shiftPressed = !shiftPressed;
+        if(!shiftPressed){
+            shift.style.backgroundColor = "rgb(110, 86, 86)";
+            let s = document.getElementsByClassName('oButtons trig')
+            for(let i = 0;i<s.length;i++){
+                s[i].innerHTML = s[i].innerHTML.substr(1);
+                s[i].id = s[i].id.substr(1);
+            }
+        }else{
+            shift.style.backgroundColor = "rgb(105, 97, 97)";
+            let s = document.getElementsByClassName('oButtons trig')
+            for(let i = 0;i<s.length;i++){
+                s[i].innerHTML  = "a" + s[i].innerHTML;
+                s[i].id = "a" + s[i].id;
+            }
         }
-        else if(s[i].id == "equalTo"){
-            s[i].addEventListener("click", function(){
-                for(let i =0;i<noOfParenthesis;i++){
-                    number += ")";
-                }
-                let calc = new Calculator(number);
-                calc.resolve();
-                document.getElementById("text").innerHTML = calc.evaluatePostfix(calc.convertToPostfix(calc.split()));
-                noOfParenthesis = 0;
-            })
-        }
-        else{
-            s[i].addEventListener("click",getNumber);
-        }
+        
     }
 
 }
+
+
 //Gets the count of the letters to delete, return 0 if the last char is not a letter
 function CountLetter(n){
     let count = 0;
@@ -45,6 +91,7 @@ function CountLetter(n){
     return count;
 }
 function deleteString(count){
+    number += "";
     if(number[number.length-1] == "("){
         noOfParenthesis--;
     }
@@ -59,6 +106,7 @@ function deleteString(count){
 }
 //TODO call the other method here;
 function getNumber(){
+    number += "";
     //TODO add unary
     if(this.innerHTML.endsWith("(")){
         noOfParenthesis++;
@@ -66,7 +114,7 @@ function getNumber(){
     if(this.innerHTML.endsWith(")")){
         noOfParenthesis--;
     }
-    if(!binary.includes(this.innerHTML) && number.endsWith(")") && this.innerHTML != ")"){
+    if(!binary.includes(this.innerHTML[0]) && this.innerHTML != "!" && number.endsWith(")") && this.innerHTML != ")"){
         number += "*";
     }else if(number.length >0 && (this.className == "oButtons trig" || this.innerHTML == "(") ){
         if(!binary.includes(number[number.length-1]) && !number.endsWith("(")){
@@ -76,12 +124,12 @@ function getNumber(){
     number += this.innerHTML;
     document.getElementById("text").textContent = number;
 }
-function Calculator(s) {
+function Calculator(s,rad) {
     String.prototype.insertAt = function(string, index){
         return  this.substr(0,index) + string + this.substr(index);
     }
     this.text = s;
-
+    this.rad = rad;
     this.array = Array();
     this.op = ["^", "/","*","-","+"];
     this.unary = {
@@ -91,9 +139,6 @@ function Calculator(s) {
         "-" : {"left" : function() {
             return true;
         }},
-        // "!" : {"left" : function() {
-        //     return false;
-        // }},
         "%" : {"left" : function() {
             return false;
         }},
@@ -101,7 +146,7 @@ function Calculator(s) {
             return str in this;
         }
     }
-    this.trig = ["sin", "cos", "tan", "tanInverse", "cosInverse", "sinInverse", "ln", "e", "log"];
+    this.trig = ["sin", "cos", "tan", "atan", "acos", "asin", "ln", "e", "log"];
     this.binary = ["+","-","*","/","^","("];
     this.operators = {
         ")" : {"isp" : -1, "icp": 0},
@@ -123,12 +168,12 @@ function Calculator(s) {
         "*" : (a,b) => a*b,
         "/" : (a,b) => a/b,
         "^" : (a,b) => Math.pow(a,b),
-        "sin" : (a) => Math.sin(a),
-        "cos" : (a) => Math.cos(a),
-        "tan" : (a) => Math.tan(a),
-        "sinInverse" : (a) => Math.asin(a),
-        "cosInverse" : (a) => Math.acos(a),
-        "tanInverse" : (a) => Math.atan(a),
+        "sin" : (a) => (rad) ? Math.sin(a) : Math.sin(a*Math.PI/180),
+        "cos" : (a) => (rad) ? Math.cos(a) : Math.cos(a*Math.PI/180),
+        "tan" : (a) => (rad) ? Math.tan(a) : Math.tan(a*Math.PI/180),
+        "asin" : (a) => (rad) ? Math.asin(a) : Math.asin(a) * 180/Math.PI,
+        "acos" : (a) =>(rad) ? Math.acos(a) : Math.acos(a) * 180/Math.PI,
+        "atan" : (a) => (rad) ? Math.atan(a) : Math.atan(a) * 180/Math.PI,
         "log" : (a) => Math.log10(a),
         "ln" : (a) => Math.log(a),
         "e" : () => Math.E,
@@ -206,6 +251,7 @@ function Calculator(s) {
         console.log(this.text);
     }
     this.isNumber = function(str){
+        str += "";
         let reg = /[0-9]/; 
         return reg.test(str) || str.includes(".") || str.includes("!");
     }
@@ -213,24 +259,6 @@ function Calculator(s) {
         let reg = /[a-z]/;
         return reg.test(str);
     }
-    // this.addMultiply = function(){
-    //     let newText = "";
-    //     let s = "";
-    //     for(let i = 0;i<this.text.length-1;i++){
-    //         s = this.text[i];
-    //         newText += s;
-    //         if((this.isNumber(i) || s == ")") && this.text[i+1] == "("){
-    //             newText += "*";
-    //         }
-    //         else if(this.isNumber(i) && this.isLetter(i+1)){
-    //             newText += "*";
-    //         }
-    //     }
-    //     newText += this.text[this.text.length-1];
-    //     console.log(newText);
-    //     this.text = newText;
-    //     return newText;
-    // }
     this.parenthesed = function(){
         let s = "";
         let former = "";
@@ -258,7 +286,6 @@ function Calculator(s) {
             if(this.isNumber(a[i])){
                 do{
                     c += a[i];
-                    //a = a.substring(i+1);
                     i++;
                 }while(i<a.length && this.isNumber(a[i]));
                 array.push(c);
@@ -267,7 +294,6 @@ function Calculator(s) {
             else if(this.isLetter(a[i])){
                 do{
                     c += a[i];
-                    //a = a.substring(i+1);
                     i++;
                 }while(i<a.length && this.isLetter(a[i]));
                 array.push(c);
@@ -330,16 +356,30 @@ function Calculator(s) {
         let item = array[index];
         let t;
         while(item != "#"){
-            if(this.isNumber(item)){
+            if(item == "!"){
+                let num = Number(stack.pop());
+                if(num<0){
+                    stack.push(NaN);
+                }else{
+                    stack.push(this.fact(num));
+                }
+            }
+            else if(this.isNumber(item)){
                 if(item.includes("!")){
-                    stack.push(this.fact(Number (item.substr(0,item.length-1))))
+                    let num = Number (item.substr(0,item.length-1));
+                    if(num<0){
+                        stack.push(NaN);
+                    }else{
+                        stack.push(this.fact(num));
+                    }
                 }
                 else{
                     stack.push(item);
                 }
-            }else{
+            }
+            else{
                 if(this.trig.includes(item)){
-                    y = Number(stack.pop());
+                    y = Number(stack.pop())
                     t = this.operations[item](y);
                 }else{
                     y = Number(stack.pop());

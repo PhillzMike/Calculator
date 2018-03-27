@@ -8,7 +8,7 @@
     <body>
         <div id = "calculator">
             <div id="textArea" class = "regions">
-                <textarea id = "text">
+                <textarea id = "text" readonly>
                 </textarea>
             </div>
             <div id = "buttons">
@@ -36,14 +36,17 @@
                         </div>
                     </div>
                     <div id="trig">
-                        <button class="oButtons trig" id = "log">log(</button>
-                        <button class="oButtons trig" id = "ln">ln(</button>
+                        <button class="oButtons log" id = "log">log(</button>
+                        <button class="oButtons log" id = "ln">ln(</button>
                         <button class="oButtons trig" id = "sin">sin(</button>
                         <button class="oButtons trig" id = "cos">cos(</button>
                         <button class="oButtons trig" id = "tan">tan(</button>
                         <button class="oButtons" id = "leftParanthesis">(</button>
                         <button class="oButtons" id = "right Paranthesis">)</button>
-                        <button class="oButtons"></button>
+                        <div class="oButtons" id = "rad">  
+                            <label for = "radian">Rad</label>
+                            <input type = "checkbox" id = "radian">
+                        </div>
                     </div>
                 </div>
                 <div id="arithmetic" class = "regions">
